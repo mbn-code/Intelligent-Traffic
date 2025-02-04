@@ -4,17 +4,15 @@ using UnityEngine;
 
 public class LightController : MonoBehaviour
 {
-
     [SerializeField] private GameObject GreenLight;
     [SerializeField] private GameObject YellowLight; 
     [SerializeField] private GameObject RedLight; 
-    
-    
+
     void Start()
     {
-        YellowLight.SetActive(false);   
-        RedLight.SetActive(false);
-        GreenLight.SetActive(true);
+        YellowLight.SetActive(false);
+        RedLight.SetActive(true);
+        GreenLight.SetActive(false);
     }
 
     public void SetYellowLight()
@@ -36,5 +34,21 @@ public class LightController : MonoBehaviour
         GreenLight.SetActive(true);
         YellowLight.SetActive(false);
         RedLight.SetActive(false);
+    }
+
+    public bool IsGreen()
+    {
+        return GreenLight.activeSelf;
+    }
+
+    public bool IsYellow()
+    {
+        return YellowLight.activeSelf;
+    }
+
+    public bool IsRed()
+    {
+
+        return RedLight.activeSelf;
     }
 }
