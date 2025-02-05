@@ -33,7 +33,7 @@ public class CarSpawner : MonoBehaviour
             // Calculate rotation as the direction from the spawn point to the end point
             Vector3 Direction = movementInfo.EndPoint.position - movementInfo.SpawnPoint.position;
             Car.transform.rotation = Quaternion.LookRotation(Direction);
-            Car.transform.localScale = new Vector3(2, 2, 2);
+            Car.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
 
             CarInfo carInfo = new CarInfo();
             carInfo.CarMovementInfo = movementInfo;
@@ -56,8 +56,6 @@ public class CarSpawner : MonoBehaviour
 
             if (isBeforeStopPoint)
             {
-                Debug.Log("Car is before the stop point");
-
                 if (lightController.IsRed())
                 {
                     if (Vector3.Distance(spawnedCar.CarObject.transform.position, spawnedCar.CarMovementInfo.StopPoint.position) < 0.5f)

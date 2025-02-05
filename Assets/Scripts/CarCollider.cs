@@ -29,6 +29,7 @@ public class CarCollider : MonoBehaviour
             Debug.Log("Car Collided");
             if (IsSouth)
             {
+                Debug.Log("Set South Occupied");
                 CollisionController.SetSouthOccupied(true);
                 LightManager.AddToQueue("South");
                 Debug.Log("South");
@@ -36,6 +37,7 @@ public class CarCollider : MonoBehaviour
 
             if (IsEast)
             {
+                Debug.Log("Set East Occupied");
                 CollisionController.SetEastOccupied(true);
                 LightManager.AddToQueue("East");
                 Debug.Log("East");
@@ -43,6 +45,7 @@ public class CarCollider : MonoBehaviour
 
             if (IsWest)
             {
+                Debug.Log("Set West Occupied");
                 CollisionController.SetWestOccupied(true);
                 LightManager.AddToQueue("West");
                 Debug.Log("West");
@@ -50,6 +53,7 @@ public class CarCollider : MonoBehaviour
 
             if (IsNorth)
             {
+                Debug.Log("Set North Occupied");
                 CollisionController.SetNorthOccupied(true);
                 LightManager.AddToQueue("North");
                 Debug.Log("North");
@@ -57,6 +61,7 @@ public class CarCollider : MonoBehaviour
 
             if (IsMiddle)
             {
+                Debug.Log("Set Middle Occupied");
                 CollisionController.SetMiddleOccupied(true);
             }
         }

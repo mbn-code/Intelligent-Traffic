@@ -65,6 +65,7 @@ public class LightManager : MonoBehaviour
 
     public void AddToQueue(string Direction)
     {
+        Debug.Log(Direction + " added to queue");
         switch (Direction)
         {
             case "South":
@@ -84,32 +85,31 @@ public class LightManager : MonoBehaviour
 
     void Update()
     {
-        if(LightQueue.Count > 0)
+        if (LightQueue.Count > 0)
         {
-            foreach(KeyValuePair<string, LightController> kvp in LightQueue)
+            // Create a copy of the keys before iterating
+            foreach (var key in new List<string>(LightQueue.Keys))
             {
-                if (kvp.Key == "South" && kvp.Value.IsRed() && !CollisionController.IsMiddleOccupied())
+                if (LightQueue[key].IsRed() && !CollisionController.IsMiddleOccupied())
                 {
-                    SetSouthGreen();
-                    LightQueue.Remove(kvp.Key);
-                }
+                    switch (key)
+                    {
+                        case "South":
+                            SetSouthGreen();
+                            break;
+                        case "North":
+                            SetNorthGreen();
+                            break;
+                        case "East":
+                            SetEastGreen();
+                            break;
+                        case "West":
+                            SetWestGreen();
+                            break;
+                    }
 
-                if (kvp.Key == "North" && kvp.Value.IsRed() && !CollisionController.IsMiddleOccupied())
-                {
-                    SetNorthGreen();
-                    LightQueue.Remove(kvp.Key);
-                }
-
-                if (kvp.Key == "East" && kvp.Value.IsRed() && !CollisionController.IsMiddleOccupied())
-                {
-                    SetEastGreen();
-                    LightQueue.Remove(kvp.Key);
-                }
-
-                if (kvp.Key == "West" && kvp.Value.IsRed() && !CollisionController.IsMiddleOccupied())
-                {
-                    SetWestGreen();
-                    LightQueue.Remove(kvp.Key);
+                    // Remove the key from the original dictionary
+                    LightQueue.Remove(key);
                 }
             }
         }
