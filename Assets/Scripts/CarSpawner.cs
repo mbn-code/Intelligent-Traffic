@@ -45,7 +45,9 @@ public class CarSpawner : MonoBehaviour
 
     private void Update()
     {
-        foreach(CarInfo spawnedCar in SpawnedCars)
+        List<CarInfo> carsToProcess = new List<CarInfo>(SpawnedCars);
+
+        foreach (CarInfo spawnedCar in carsToProcess)
         {
             LightController lightController = spawnedCar.CarMovementInfo.TrafficController.GetComponent<LightController>();
 
@@ -67,9 +69,13 @@ public class CarSpawner : MonoBehaviour
                         spawnedCar.CarObject.transform.position = Vector3.MoveTowards(spawnedCar.CarObject.transform.position, spawnedCar.CarMovementInfo.StopPoint.position, CarSpeed * 0.1f);
                     }
                 }
-            } else
+                else
+                {
+                    spawnedCar.CarObject.transform.position = Vector3.MoveTowards(spawnedCar.CarObject.transform.position, spawnedCar.CarMovementInfo.EndPoint.position, CarSpeed * 0.1f);
+                }
+            }
+            else
             {
-                Debug.Log("Car is after the stop point");
                 spawnedCar.CarObject.transform.position = Vector3.MoveTowards(spawnedCar.CarObject.transform.position, spawnedCar.CarMovementInfo.EndPoint.position, CarSpeed * 0.1f);
             }
 
