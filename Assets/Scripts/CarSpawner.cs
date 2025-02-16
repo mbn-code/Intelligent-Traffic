@@ -9,7 +9,7 @@ public class CarSpawner : MonoBehaviour
     [SerializeField] private List<MovementInfo> Locations = new();
     [SerializeField] private float CarSpeed = 1.0f;
 
-    private List<string> Directions = new List<string> { "North", "East", "West", "South" };
+    private List<string> Directions = new List<string> { "North", "East", "South", "West" };
     private List<CarInfo> SpawnedCars = new();
 
 
@@ -26,22 +26,43 @@ public class CarSpawner : MonoBehaviour
             Locations.Add(Info);
         }
 
-        for(int i = 0; i < 1; i++)
+        StartCoroutine(SpawnCarsPeriodically());
+    }
+
+	IEnumerator SpawnCar() {
+        // Pick a random location
+        int i = Random.Range(0, Locations.Count);
+        MovementInfo movementInfo = Locations[i];
+
+        // Check if there is any car in the location or in the opposite one
+        if (SpawnedCars.Exists(car => car.CarMovementInfo == movementInfo) || SpawnedCars.Exists(car => car.CarMovementInfo == Locations[(i + 2) % Locations.Count]))
         {
-            MovementInfo movementInfo = Locations[i];
-            GameObject Car = Instantiate(CarObjects[Random.Range(0, CarObjects.Count)], movementInfo.SpawnPoint.position, movementInfo.SpawnPoint.rotation);
-            // Calculate rotation as the direction from the spawn point to the end point
-            Vector3 Direction = movementInfo.EndPoint.position - movementInfo.SpawnPoint.position;
-            Car.transform.rotation = Quaternion.LookRotation(Direction);
-            Car.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+            yield break;
+        }
 
-            CarInfo carInfo = new CarInfo();
-            carInfo.CarMovementInfo = movementInfo;
-            carInfo.CarObject = Car;
+        GameObject Car = Instantiate(CarObjects[Random.Range(0, CarObjects.Count)], movementInfo.SpawnPoint.position, movementInfo.SpawnPoint.rotation);
+        // Calculate rotation as the direction from the spawn point to the end point
+        Vector3 Direction = movementInfo.EndPoint.position - movementInfo.SpawnPoint.position;
+        Car.transform.rotation = Quaternion.LookRotation(Direction);
+        Car.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+        Car.name = "Car_" + movementInfo.SpawnPoint.name;
 
-            SpawnedCars.Add(carInfo);
+        CarInfo carInfo = new CarInfo();
+        carInfo.CarMovementInfo = movementInfo;
+        carInfo.CarObject = Car;
+
+        SpawnedCars.Add(carInfo);
+	}
+
+    IEnumerator SpawnCarsPeriodically()
+    {
+        while (true)
+        {
+            yield return StartCoroutine(SpawnCar());
+            yield return new WaitForSeconds(1f);
         }
     }
+
 
     private void Update()
     {

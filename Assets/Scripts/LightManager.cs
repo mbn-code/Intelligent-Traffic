@@ -65,7 +65,6 @@ public class LightManager : MonoBehaviour
 
     public void AddToQueue(string Direction)
     {
-        Debug.Log(Direction + " added to queue");
         switch (Direction)
         {
             case "South":
@@ -87,29 +86,47 @@ public class LightManager : MonoBehaviour
     {
         if (LightQueue.Count > 0)
         {
-            // Create a copy of the keys before iterating
             foreach (var key in new List<string>(LightQueue.Keys))
             {
                 if (LightQueue[key].IsRed() && !CollisionController.IsMiddleOccupied())
                 {
+                    bool setGreen = false;
+
                     switch (key)
                     {
                         case "South":
-                            SetSouthGreen();
+                            if(!CollisionController.IsNorthOccupied() && !CollisionController.IsEastOccupied() && !CollisionController.IsWestOccupied())
+                            {
+                                SetSouthGreen();
+                                setGreen = true;
+                            }
                             break;
                         case "North":
-                            SetNorthGreen();
+                            if(!CollisionController.IsSouthOccupied() && !CollisionController.IsEastOccupied() && !CollisionController.IsWestOccupied())
+                            {
+                                SetNorthGreen();
+                                setGreen = true;
+                            }
                             break;
                         case "East":
-                            SetEastGreen();
+                            if(!CollisionController.IsSouthOccupied() && !CollisionController.IsNorthOccupied() && !CollisionController.IsWestOccupied())
+                            {
+                                SetEastGreen();
+                                setGreen = true;
+                            }
                             break;
                         case "West":
-                            SetWestGreen();
+                            if(!CollisionController.IsSouthOccupied() && !CollisionController.IsNorthOccupied() && !CollisionController.IsEastOccupied())
+                            {
+                                SetWestGreen();
+                                setGreen = true;
+                            }
                             break;
                     }
 
-                    // Remove the key from the original dictionary
-                    LightQueue.Remove(key);
+                    if (setGreen) {
+                        LightQueue.Remove(key);
+                    }
                 }
             }
         }

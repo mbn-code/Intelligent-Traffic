@@ -26,42 +26,42 @@ public class CarCollider : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Car"))
         {
-            Debug.Log("Car Collided");
             if (IsSouth)
             {
-                Debug.Log("Set South Occupied");
-                CollisionController.SetSouthOccupied(true);
-                LightManager.AddToQueue("South");
-                Debug.Log("South");
+                if(other.gameObject.name.Contains("South"))
+                {
+                    CollisionController.SetSouthOccupied(true);
+                    LightManager.AddToQueue("South");
+                }
             }
 
             if (IsEast)
             {
-                Debug.Log("Set East Occupied");
-                CollisionController.SetEastOccupied(true);
-                LightManager.AddToQueue("East");
-                Debug.Log("East");
+                if(other.gameObject.name.Contains("East"))
+                {
+                    CollisionController.SetEastOccupied(true);
+                    LightManager.AddToQueue("East");
+                }
             }
 
             if (IsWest)
             {
-                Debug.Log("Set West Occupied");
-                CollisionController.SetWestOccupied(true);
-                LightManager.AddToQueue("West");
-                Debug.Log("West");
+                if(other.gameObject.name.Contains("West")) {
+                    CollisionController.SetWestOccupied(true);
+                    LightManager.AddToQueue("West");
+                }
             }
 
             if (IsNorth)
             {
-                Debug.Log("Set North Occupied");
-                CollisionController.SetNorthOccupied(true);
-                LightManager.AddToQueue("North");
-                Debug.Log("North");
+                if(other.gameObject.name.Contains("North")) {
+                    CollisionController.SetNorthOccupied(true);
+                    LightManager.AddToQueue("North");
+                }
             }
 
             if (IsMiddle)
             {
-                Debug.Log("Set Middle Occupied");
                 CollisionController.SetMiddleOccupied(true);
             }
         }
